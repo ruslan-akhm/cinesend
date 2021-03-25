@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
+import { UserContext } from "../../context/Context";
 
 function Person(props) {
-  return <div>Person's id: {props.match.params.id}</div>;
+  const { person, setPerson } = useContext(UserContext);
+  useEffect(() => {
+    console.log(person);
+  }, [person]);
+
+  return <div>Person's name / url: {props.match.params.name}</div>;
 }
 
 export default Person;
