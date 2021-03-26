@@ -10,7 +10,7 @@ function App() {
         <Redirect to="pages/1" />
       </Route>
       <Route path="/pages/:page" component={Page} exact />
-      <Route path="/person/:name" component={Person} exact />
+      <Route path="/person/:id" component={Person} exact />
     </BrowserRouter>
   );
 }

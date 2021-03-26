@@ -1,39 +1,35 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../../context/Context";
 
 function Page(props) {
   const [list, setList] = useState();
-  const { person, setPerson, page, setPage } = useContext(UserContext);
+  const [count, setCount] = useState();
+  const { page, setPage } = useContext(UserContext);
+  let history = useHistory();
 
   useEffect(() => {
     setPage(props.match.params.page);
-  }, []);
-
-  useEffect(() => {
-    //console.log(page);
-    fetch(`https://swapi.dev/api/people/?page=${page}`)
+    fetch(`https://swapi.dev/api/people/?page=${props.match.params.page}`)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        if (data.detail) {
+          history.push("/pages/1");
+        }
         setList(data.results);
-        //if data.error (status 404) - redirect to page 1
+        setCount(data.count);
       });
-  }, [page]);
+  }, [props]);
 
   const listOfPeople =
     list &&
     list.map(person => {
+      const personId = person.url.match(/\d+/g)[0];
       return (
         <div>
-          <a
-            onClick={() => {
-              setPerson(person);
-            }}
-            href={"/person/" + person.name.split(" ").join("").toLowerCase()}
-          >
+          <Link to={{ pathname: `/person/${personId}`, params: { personId } }}>
             {person.name}
-          </a>
+          </Link>
         </div>
       );
     });
@@ -42,9 +38,16 @@ function Page(props) {
     <div>
       <div>Page number: {page}</div>
       <ul>{listOfPeople}</ul>
-      <Link onClick={() => setPage(+page + 1)} to={"/pages/" + (+page + 1)}>
-        ->
-      </Link>
+      {page == 1 ? null : (
+        <Link onClick={() => setPage(+page - 1)} to={"/pages/" + (+page - 1)}>
+          back
+        </Link>
+      )}
+      {Math.ceil(count / 10) == page ? null : (
+        <Link onClick={() => setPage(+page + 1)} to={"/pages/" + (+page + 1)}>
+          -- >
+        </Link>
+      )}
     </div>
   );
 }
