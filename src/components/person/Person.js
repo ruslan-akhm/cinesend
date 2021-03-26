@@ -5,12 +5,14 @@ function Person(props) {
   const [person, setPerson] = useState();
   let history = useHistory();
   useEffect(() => {
-    fetch(`https://swapi.dev/api/people/${props.match.params.id}`)
-      .then(res => res.json())
-      .then(data => {
-        //console.log(data);
-        setPerson(data);
-      });
+    const fecthData = async () => {
+      const response = await fetch(
+        `https://swapi.dev/api/people/${props.match.params.id}`
+      );
+      const data = await response.json();
+      setPerson(data);
+    };
+    fecthData();
 
     return () => {
       setPerson(null);
@@ -20,7 +22,7 @@ function Person(props) {
   const handleButton = () => {
     //if we came from "/pages/*" - we are redirected back to page we came from
     //else "back" button will take us to the first page - "/pages/1"
-    if (props.location.params && props.location.params.id) {
+    if (props.history.location.key) {
       history.goBack();
     } else {
       history.push("/pages/1");
@@ -29,7 +31,7 @@ function Person(props) {
 
   return (
     <div>
-      Person's name / url: {props.match.params.id}
+      Person:
       <button onClick={handleButton}>BACK</button>
     </div>
   );

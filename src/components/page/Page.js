@@ -10,24 +10,32 @@ function Page(props) {
 
   useEffect(() => {
     setPage(props.match.params.page);
-    fetch(`https://swapi.dev/api/people/?page=${props.match.params.page}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.detail) {
-          history.push("/pages/1");
-        }
-        setList(data.results);
-        setCount(data.count);
-      });
+    const fecthData = async () => {
+      const response = await fetch(
+        `https://swapi.dev/api/people/?page=${props.match.params.page}`
+      );
+      const data = await response.json();
+      if (data.detail) {
+        history.push("/pages/1");
+      }
+      setList(data.results);
+      setCount(data.count);
+    };
+    fecthData();
+
+    return () => {
+      setList();
+      setCount();
+    };
   }, [props]);
 
   const listOfPeople =
     list &&
     list.map(person => {
-      const personId = person.url.match(/\d+/g)[0];
+      const id = person.url.match(/\d+/g)[0];
       return (
         <div>
-          <Link to={{ pathname: `/person/${personId}`, params: { personId } }}>
+          <Link to={{ pathname: `/person/${id}`, params: { id } }}>
             {person.name}
           </Link>
         </div>
