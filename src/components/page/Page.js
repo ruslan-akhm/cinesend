@@ -41,7 +41,7 @@ function Page(props) {
         <Link to={{ pathname: `/person/${id}`, params: { id } }} key={id}>
           <li>
             <h2>{person.name}</h2>
-            <div>
+            <div className="info">
               <p>
                 DOB: <strong>{person.birth_year}</strong>
               </p>
