@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { UserContext } from "../../context/Context";
+//import { UserContext } from "../../context/Context";
+import "./Page.css";
 
 function Page(props) {
   const [list, setList] = useState();
   const [count, setCount] = useState();
-  const { page, setPage } = useContext(UserContext);
+  const [page, setPage] = useState();
   let history = useHistory();
 
   useEffect(() => {
@@ -32,30 +33,54 @@ function Page(props) {
   const listOfPeople =
     list &&
     list.map(person => {
+      console.log(person);
       const id = person.url.match(/\d+/g)[0];
       return (
-        <div>
-          <Link to={{ pathname: `/person/${id}`, params: { id } }}>
-            {person.name}
-          </Link>
-        </div>
+        <Link to={{ pathname: `/person/${id}`, params: { id } }}>
+          <li>
+            <h2>{person.name}</h2>
+            <div>
+              <p>
+                DOB: <strong>{person.birth_year}</strong>
+              </p>
+              <p>
+                Height: <strong>{person.height}</strong>
+              </p>
+              <p>
+                Mass: <strong>{person.mass}</strong>
+              </p>
+            </div>
+          </li>
+        </Link>
       );
     });
 
   return (
-    <div>
-      <div>Page number: {page}</div>
-      <ul>{listOfPeople}</ul>
-      {page == 1 ? null : (
-        <Link onClick={() => setPage(+page - 1)} to={"/pages/" + (+page - 1)}>
-          back
-        </Link>
-      )}
-      {Math.ceil(count / 10) == page ? null : (
-        <Link onClick={() => setPage(+page + 1)} to={"/pages/" + (+page + 1)}>
-          -- >
-        </Link>
-      )}
+    <div id="page">
+      <div id="container">
+        <ul>{listOfPeople}</ul>
+        <div className="page-nav-box">
+          {page == 1 ? null : (
+            <Link
+              className="nav-button prev-page"
+              onClick={() => setPage(+page - 1)}
+              to={"/pages/" + (+page - 1)}
+            >
+              &#8678;
+            </Link>
+          )}
+          <p>Page: {page}</p>
+          {Math.ceil(count / 10) == page ? null : (
+            <Link
+              className="nav-button next-page"
+              onClick={() => setPage(+page + 1)}
+              to={"/pages/" + (+page + 1)}
+            >
+              &#8680;
+            </Link>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
