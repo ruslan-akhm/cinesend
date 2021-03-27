@@ -1,0 +1,30 @@
+#loading-animation {
+  display: block;
+  position: relative;
+  height: 80px;
+}
+
+.checkout-loading {
+  margin-top: 0 !important;
+}
+.spinner-1:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 80px;
+  width: 80px;
+  margin-top: -40px;
+  margin-left: -40px;
+  border-radius: 50%;
+  border: 8px solid lightgray;
+  border-top-color: white;
+  animation: spinner 0.7s linear infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Spinner from "../spinner/Spinner";
 import "./Person.css";
 
 function Person(props) {
   const [person, setPerson] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   let history = useHistory();
   useEffect(() => {
     const fecthData = async () => {
@@ -11,7 +13,10 @@ function Person(props) {
         `https://swapi.dev/api/people/${props.match.params.id}`
       );
       const data = await response.json();
-      console.log(data);
+      setIsLoading(false);
+      if (data.detail) {
+        return history.push("/pages/1");
+      }
       setPerson(data);
     };
     fecthData();
@@ -33,87 +38,108 @@ function Person(props) {
 
   return (
     <div id="person">
-      <div className="person-box">
-        {person ? (
-          <>
-            <div className="left-box">
-              <ul className="left-box-wrapper">
-                <ul className="left-box-lists">
-                  <h4>Films:</h4>
-                  {person.films.length > 0 ? (
-                    person.films.map((film, index) => {
-                      return (
-                        <a href={film} target="_blank">
-                          <li>Film {index + 1} &#8599;</li>
-                        </a>
-                      );
-                    })
-                  ) : (
-                    <span>N/A</span>
-                  )}
+      {isLoading ? (
+        <div className="loading-person">
+          <Spinner />
+        </div>
+      ) : (
+        <div className="person-box">
+          {person ? (
+            <>
+              <div className="left-box">
+                <ul className="left-box-wrapper">
+                  <ul className="left-box-lists">
+                    <h4>Films:</h4>
+                    {person.films.length > 0 ? (
+                      person.films.map((film, index) => {
+                        return (
+                          <a
+                            href={film}
+                            target="_blank"
+                            rel="noreferrer"
+                            key={"film" + index}
+                          >
+                            <li>Film {index + 1} &#8599;</li>
+                          </a>
+                        );
+                      })
+                    ) : (
+                      <span>N/A</span>
+                    )}
+                  </ul>
+                  <ul className="left-box-lists">
+                    <h4>Starships:</h4>
+                    {person.starships.length > 0 ? (
+                      person.films.map((ship, index) => {
+                        return (
+                          <a
+                            href={ship}
+                            target="_blank"
+                            rel="noreferrer"
+                            key={"ship" + index}
+                          >
+                            <li>Ship {index + 1} &#8599;</li>
+                          </a>
+                        );
+                      })
+                    ) : (
+                      <span>N/A</span>
+                    )}
+                  </ul>
+                  <ul className="left-box-lists">
+                    <h4>Vehicles:</h4>
+                    {person.starships.length > 0 ? (
+                      person.films.map((veh, index) => {
+                        return (
+                          <a
+                            href={veh}
+                            target="_blank"
+                            rel="noreferrer"
+                            key={"vehicle" + index}
+                          >
+                            <li>Vehicle {index + 1} &#8599;</li>
+                          </a>
+                        );
+                      })
+                    ) : (
+                      <span>N/A</span>
+                    )}
+                  </ul>
                 </ul>
-                <ul className="left-box-lists">
-                  <h4>Starships:</h4>
-                  {person.starships.length > 0 ? (
-                    person.films.map((ship, index) => {
-                      return (
-                        <a href={ship} target="_blank">
-                          <li>Ship {index + 1} &#8599;</li>
-                        </a>
-                      );
-                    })
-                  ) : (
-                    <span>N/A</span>
-                  )}
+              </div>
+              <div className="right-box">
+                <h1>{person.name}</h1>
+                <ul>
+                  <li>
+                    <label>DOB:</label>
+                    <p>&nbsp;{person.birth_year}</p>
+                  </li>
+                  <li>
+                    <label>Gender:</label>
+                    <p>&nbsp;{person.gender}</p>
+                  </li>
+                  <li>
+                    <label>Eye Color:</label>
+                    <p>&nbsp;{person.eye_color}</p>
+                  </li>
+                  <li>
+                    <label>Hair Color:</label>
+                    <p>&nbsp;{person.hair_color}</p>
+                  </li>
+                  <li>
+                    <label>Height:</label>
+                    <p> &nbsp;{person.height}</p>
+                  </li>
+                  <li>
+                    <label>Mass:</label>
+                    <p> &nbsp;{person.mass}</p>
+                  </li>
                 </ul>
-                <ul className="left-box-lists">
-                  <h4>Vehicles:</h4>
-                  {person.starships.length > 0 ? (
-                    person.films.map((veh, index) => {
-                      return (
-                        <a href={veh} target="_blank">
-                          <li>Vehicle {index + 1} &#8599;</li>
-                        </a>
-                      );
-                    })
-                  ) : (
-                    <span>N/A</span>
-                  )}
-                </ul>
-              </ul>
-            </div>
-            <div className="right-box">
-              <h1>{person.name}</h1>
-              <ul>
-                <li>
-                  <label>DOB:</label>
-                  <p>&nbsp;{person.birth_year}</p>
-                </li>
-                <li>
-                  <label>Gender:</label>
-                  <p>&nbsp;{person.gender}</p>
-                </li>
-                <li>
-                  <label>Eye Color:</label>
-                  <p>&nbsp;{person.eye_color}</p>
-                </li>
-                <li>
-                  <label>Hair Color:</label>
-                  <p>&nbsp;{person.hair_color}</p>
-                </li>
-                <li>
-                  <label>Height:</label>
-                  <p> &nbsp;{person.height}</p>
-                </li>
-                <li>
-                  <label>Mass:</label>
-                  <p> &nbsp;{person.mass}</p>
-                </li>
-              </ul>
-            </div>
-          </>
-        ) : null}
-      </div>
+              </div>
+            </>
+          ) : null}
+        </div>
+      )}
       <button onClick={handleButton} className="back-button">
         BACK
       </button>

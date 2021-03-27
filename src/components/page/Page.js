@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import Spinner from "../spinner/Spinner";
 import "./Page.css";
 
 function Page(props) {
   const [list, setList] = useState();
   const [count, setCount] = useState();
   const [page, setPage] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   let history = useHistory();
 
   useEffect(() => {
@@ -15,8 +17,9 @@ function Page(props) {
         `https://swapi.dev/api/people/?page=${props.match.params.page}`
       );
       const data = await response.json();
+      setIsLoading(false);
       if (data.detail) {
-        history.push("/pages/1");
+        return history.push("/pages/1");
       }
       setList(data.results);
       setCount(data.count);
@@ -26,6 +29,7 @@ function Page(props) {
     return () => {
       setList();
       setCount();
+      setIsLoading(true);
     };
   }, [props]);
 
@@ -56,7 +60,13 @@ function Page(props) {
   return (
     <div id="page">
       <div id="container">
-        <ul>{listOfPeople}</ul>
+        {isLoading ? (
+          <div className="loading-box">
+            <Spinner />
+          </div>
+        ) : (
+          <ul>{listOfPeople}</ul>
+        )}
         <div className="page-nav-box">
           {page == 1 ? null : (
             <Link
