@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-//import { UserContext } from "../../context/Context";
 import "./Page.css";
 
 function Page(props) {
@@ -33,10 +32,9 @@ function Page(props) {
   const listOfPeople =
     list &&
     list.map(person => {
-      console.log(person);
       const id = person.url.match(/\d+/g)[0];
       return (
-        <Link to={{ pathname: `/person/${id}`, params: { id } }}>
+        <Link to={{ pathname: `/person/${id}`, params: { id } }} key={id}>
           <li>
             <h2>{person.name}</h2>
             <div>
