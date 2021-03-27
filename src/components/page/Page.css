@@ -75,6 +75,7 @@ a {
   width: 70px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .nav-button:hover {
   background-color: #9f04c2;

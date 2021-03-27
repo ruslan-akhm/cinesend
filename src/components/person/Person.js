@@ -7,6 +7,7 @@ function Person(props) {
   const [person, setPerson] = useState();
   const [isLoading, setIsLoading] = useState(true);
   let history = useHistory();
+  //Initial API call to get character's data + state upd
   useEffect(() => {
     const fecthData = async () => {
       const response = await fetch(
@@ -14,20 +15,21 @@ function Person(props) {
       );
       const data = await response.json();
       setIsLoading(false);
+      //if no data (data.detail = "Not Found") in the response - redirect
       if (data.detail) {
         return history.push("/pages/1");
       }
       setPerson(data);
     };
     fecthData();
-
+    //clearing state when component unmounts
     return () => {
       setPerson(null);
     };
   }, []);
 
   const handleButton = () => {
-    //if we came from "/pages/*" - we are redirected back to page we came from
+    //if we came from whatever page, e.g. "/pages/*" - we are redirected back to page we came from
     //else "back" button will take us to the first page - "/pages/1"
     if (props.history.location.key) {
       history.goBack();

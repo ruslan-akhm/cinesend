@@ -4,12 +4,12 @@ import Spinner from "../spinner/Spinner";
 import "./Page.css";
 
 function Page(props) {
-  const [list, setList] = useState();
-  const [count, setCount] = useState();
-  const [page, setPage] = useState();
+  const [list, setList] = useState(); //list of characters for this page
+  const [count, setCount] = useState(); //total number of characters
+  const [page, setPage] = useState(); //current page
   const [isLoading, setIsLoading] = useState(true);
   let history = useHistory();
-
+  //Initial API call to get list of characters + state upd
   useEffect(() => {
     setPage(props.match.params.page);
     const fecthData = async () => {
@@ -18,6 +18,7 @@ function Page(props) {
       );
       const data = await response.json();
       setIsLoading(false);
+      //if no data (data.detail = "Not Found") in the response - redirect
       if (data.detail) {
         return history.push("/pages/1");
       }
@@ -25,7 +26,7 @@ function Page(props) {
       setCount(data.count);
     };
     fecthData();
-
+    //clearing state when component unmounts
     return () => {
       setList();
       setCount();
@@ -33,6 +34,7 @@ function Page(props) {
     };
   }, [props]);
 
+  //map through the list to reflect particular data
   const listOfPeople =
     list &&
     list.map(person => {

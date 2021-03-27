@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# Assignment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React application that lists characters from the Star Wars series, using their publicly-available API (SWAPI.dev)
 
-## Available Scripts
+### Problem and Solution
 
-In the project directory, you can run:
+**Problem:**
 
-### `npm start`
+App should display a list of characters (padinated) with some details listed. Every item in the list should lead to character's page on click, where corresponding character's properties shown.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**Solution:**
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Challenge was solved by implementing routing with React Router. Every page of the list (1 - 9) has it's own URL.
 
-### `npm test`
+If trying to access "/" endpoint, user will be redirected to page 1, as there is no landing page.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+First page has no "previous page" button, and last page has no "next page" button for better UI/UX. If typing non-existent page into query string, user will be redirected to the page 1 (_reasoning_: preventing errors and providing better UX). History won't have an attempt to access non-existing page. "useHistory" React hook was utilized. When directed to actual character's page corresponding id passed as prop to the Page component, in case developer would need it. Otherwise page number and id are taken from query params via props.
 
-### `npm run build`
+Every character has their own page URL (_reasoning_: so it could be accessed without needing to navigate through the list). Character's do not have default "id" property as a separate field in the document (JSON), so character's id was extracted form "url" property. If typed non-existent person (character id) in URL, user will be redirected to the list, specifically to the page 1. On characters page there are links to films, starships and vehicles which would open in the new tab once clicked.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+User's navigation is saved in history stack, so clicking and browsers back button or "back" button on the character's page would bring user to the point in the list they actually came from (if you click a character on the third page and press back, it will return user to the third page) (_reasoning_: more intuitive navigation).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+All the API calls are done by utilizing Fetch API (as requested) with async functions.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Loading indication was added when navigating between list pages and to character's page. App is completely mobile responsive.
 
-### `npm run eject`
+State is managed completely via React hooks (). Props (like query params) actively used. Initially implemented React Context API was removed later as unnecessary. Particular states are cleared when component unmounts (_reasoning_: better UX as previously accessed character's information can be shown for several milliseconds if state is not cleared)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Possible improvements
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Caching API call data. Characters' list unlikely to change often, so caching data is reasonable. SWR library could be used.
+- Handling incorrect URL endpoints (like non-existent character's page and/or incorrect list page) could lead to designated 404 page in the future, if app would expand.
+- Simple list filtering could be added (filter by name, movies, etc.).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Run locally
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```sh
+$ git clone https://github.com/ruslan-akhm/cinesend.git
+$ cd cinesend
+$ npm install
+$ npm start
+```
 
-## Learn More
+### Tech Stack
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- React.js ( + React router)
+- CSS
+- HTML
