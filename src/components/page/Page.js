@@ -61,11 +61,11 @@ function Page(props) {
     <div id="page">
       <div id="container">
         {isLoading ? (
-          <div className="loading-box">
+          <div className="loading-box glass-page">
             <Spinner />
           </div>
         ) : (
-          <ul>{listOfPeople}</ul>
+          <ul className="glass-page">{listOfPeople}</ul>
         )}
         <div className="page-nav-box">
           {page == 1 ? null : (

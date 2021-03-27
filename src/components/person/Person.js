@@ -39,11 +39,11 @@ function Person(props) {
   return (
     <div id="person">
       {isLoading ? (
-        <div className="loading-person">
+        <div className="loading-person glass-person">
           <Spinner />
         </div>
       ) : (
-        <div className="person-box">
+        <div className="person-box glass-person">
           {person ? (
             <>
               <div className="left-box">
@@ -125,6 +125,10 @@ function Person(props) {
                   <li>
                     <label>Hair Color:</label>
                     <p>&nbsp;{person.hair_color}</p>
+                  </li>
+                  <li>
+                    <label>Skin Color:</label>
+                    <p>&nbsp;{person.skin_color}</p>
                   </li>
                   <li>
                     <label>Height:</label>

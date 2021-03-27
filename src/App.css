@@ -5,4 +5,9 @@
 body {
   margin: 0;
   padding: 0;
+  background: linear-gradient(
+    to bottom right,
+    rgba(13, 144, 56, 0.8) 0%,
+    rgba(168, 41, 196, 0.8) 100%
+  );
 }

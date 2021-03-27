@@ -12,17 +12,9 @@ a {
   flex-direction: column;
 }
 #container ul {
-  border-radius: 15px;
-  height: 75vh;
-  background: linear-gradient(
-    142deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.3) 100%
-  );
   overflow: scroll;
   overflow-x: hidden;
   padding: 0 11px 0 11px;
-  margin: 0 0px auto 0px;
 }
 #container ul li {
   border: 1px solid #e6e3e3;
@@ -37,7 +29,7 @@ a {
 }
 #container ul li:hover {
   background-color: white;
-  color: #009130;
+  color: #292ac4;
 }
 #container ul li h2,
 #container ul li p {
@@ -46,27 +38,29 @@ a {
 }
 #page {
   min-height: 100vh;
-  background: rgb(13, 144, 56);
+  background: rgb(144, 13, 23);
   background: linear-gradient(
-    to bottom right,
-    rgba(13, 144, 56, 0.8) 0%,
-    rgba(168, 41, 196, 0.8) 100%
+    135deg,
+    rgba(144, 13, 23, 0.7) 0%,
+    rgba(41, 42, 196, 0.6) 100%
   );
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.loading-box {
-  height: 75vh;
+.glass-page {
   border-radius: 15px;
+  height: 75vh;
   background: linear-gradient(
     142deg,
     rgba(255, 255, 255, 0.3) 0%,
     rgba(255, 255, 255, 0.3) 100%
   );
+  margin: 0 0 auto;
+}
+.loading-box {
   width: 100%;
-  margin-bottom: auto;
   display: flex;
   justify-content: center;
   align-items: center;
